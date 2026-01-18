@@ -1,0 +1,449 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Fareedah (P Fiddy), be my Valentine?</title>
+  <style>
+    :root{
+      --bg1:#0b0b12;
+      --bg2:#1a0f1a;
+      --text:#f7f3ff;
+      --muted:#cdbfe6;
+      --accent:#ff4d8d;
+      --accent2:#ffd1e0;
+      --good:#41d18e;
+      --shadow: 0 18px 50px rgba(0,0,0,.45);
+      --radius: 22px;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color:var(--text);
+      min-height:100vh;
+      overflow-x:hidden;
+      background:
+        radial-gradient(1200px 700px at 20% 10%, rgba(255,77,141,.20), transparent 55%),
+        radial-gradient(900px 700px at 85% 20%, rgba(255,209,224,.16), transparent 60%),
+        radial-gradient(900px 700px at 50% 90%, rgba(125,90,255,.12), transparent 60%),
+        linear-gradient(160deg, var(--bg1), var(--bg2));
+    }
+
+    /* floating hearts */
+    .hearts {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+    .heart {
+      position: absolute;
+      font-size: 18px;
+      opacity: 0;
+      filter: drop-shadow(0 10px 18px rgba(0,0,0,.35));
+      animation: floatUp linear forwards;
+    }
+    @keyframes floatUp {
+      0% { transform: translateY(40px) scale(.9) rotate(0deg); opacity: 0; }
+      10% { opacity: .75; }
+      100% { transform: translateY(-110vh) scale(1.25) rotate(12deg); opacity: 0; }
+    }
+
+    .wrap{
+      position: relative;
+      z-index: 1;
+      padding: 42px 18px 80px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .card{
+      width:min(980px, 100%);
+      background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+    }
+
+    .top{
+      padding: 34px 26px 18px;
+      display:flex;
+      gap:18px;
+      align-items:flex-start;
+      justify-content:space-between;
+      flex-wrap:wrap;
+    }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,77,141,.12);
+      border: 1px solid rgba(255,77,141,.22);
+      color: var(--accent2);
+      font-weight: 700;
+      letter-spacing:.2px;
+      user-select:none;
+    }
+
+    .title{
+      margin: 14px 0 6px;
+      font-size: clamp(28px, 4vw, 44px);
+      line-height: 1.05;
+      letter-spacing: -0.6px;
+    }
+    .subtitle{
+      margin: 0;
+      color: var(--muted);
+      font-size: 15.5px;
+      line-height: 1.45;
+      max-width: 62ch;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 18px;
+      padding: 10px 26px 28px;
+    }
+    @media (max-width: 860px){
+      .grid{grid-template-columns:1fr; padding: 8px 18px 22px;}
+      .top{padding: 26px 18px 12px;}
+    }
+
+    .panel{
+      background: rgba(20,20,34,.55);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 18px;
+      padding: 18px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.22);
+    }
+
+    .panel h2{
+      margin: 0 0 10px;
+      font-size: 16px;
+      color: var(--accent2);
+      letter-spacing:.2px;
+    }
+
+    .messages{
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+    }
+    .msg{
+      padding: 12px 12px;
+      border-radius: 14px;
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.07);
+      color: rgba(247,243,255,.95);
+      line-height:1.45;
+      font-size: 14.8px;
+      position: relative;
+      cursor: pointer;
+    }
+    .msg::before{
+      content:"";
+      position:absolute;
+      left: 12px;
+      top: -1px;
+      width: 64px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), transparent);
+      opacity:.7;
+    }
+
+    .cta{
+      display:flex;
+      flex-direction:column;
+      gap: 12px;
+    }
+
+    .question{
+      font-size: 18px;
+      line-height: 1.35;
+      margin: 2px 0 0;
+    }
+    .question strong{color: var(--accent2);}
+
+    .btnRow{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      align-items:center;
+      margin-top: 6px;
+      position: relative;
+      min-height: 52px;
+    }
+
+    button{
+      border: none;
+      border-radius: 999px;
+      padding: 12px 16px;
+      font-weight: 800;
+      letter-spacing:.2px;
+      cursor:pointer;
+      transition: transform .12s ease, filter .12s ease, background .12s ease;
+      user-select:none;
+      will-change: transform;
+    }
+    button:active{transform: scale(.98)}
+    .yes{
+      background: linear-gradient(180deg, rgba(65,209,142,.95), rgba(44,164,112,.95));
+      color: #07140f;
+      box-shadow: 0 10px 30px rgba(65,209,142,.22);
+    }
+    .yes:hover{filter: brightness(1.05)}
+    .no{
+      background: rgba(255,255,255,.06);
+      color: rgba(247,243,255,.92);
+      border: 1px solid rgba(255,255,255,.10);
+    }
+    .no:hover{filter: brightness(1.08)}
+    .tiny{
+      font-size: 12px;
+      color: rgba(205,191,230,.9);
+      margin: 0;
+    }
+
+    .final{
+      display:none;
+      padding: 18px;
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(255,77,141,.20), rgba(255,255,255,.05));
+      border: 1px solid rgba(255,77,141,.25);
+      box-shadow: 0 18px 55px rgba(255,77,141,.12);
+    }
+    .final h3{
+      margin: 0 0 8px;
+      font-size: 18px;
+      color: var(--accent2);
+    }
+    .final p{margin: 0; color: rgba(247,243,255,.94); line-height:1.5}
+
+    .footer{
+      padding: 0 26px 26px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap: 12px;
+      flex-wrap: wrap;
+      color: rgba(205,191,230,.9);
+      font-size: 12.5px;
+    }
+    .pill{
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.08);
+      user-select:none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="hearts" id="hearts"></div>
+
+  <div class="wrap">
+    <main class="card" role="main" aria-label="Valentine invite">
+      <section class="top">
+        <div>
+          <div class="badge">💘 Valentine’s Invite • Just for <span id="herNameBadge">Fareedah</span> (P Fiddy)</div>
+          <h1 class="title">
+            Fareedah (P Fiddy), you make everything feel brighter.
+          </h1>
+          <p class="subtitle">
+            I made this little page because words are still not enough — but I’m going to try anyway.
+          </p>
+        </div>
+
+        <div class="pill" id="datePill" title="Optional: you can customize this in the code">
+          📅 February 14
+        </div>
+      </section>
+
+      <section class="grid">
+        <div class="panel">
+          <h2>What I want you to know</h2>
+          <div class="messages" id="messages"></div>
+          <p class="tiny" style="margin-top:12px;">(Tap/click any message to shuffle them.)</p>
+        </div>
+
+        <div class="panel">
+          <h2>One question…</h2>
+
+          <div class="cta">
+            <p class="question">
+              <strong id="herNameQ">Fareedah</strong> (P Fiddy),
+              would you do me the honour of being my Valentine’s date?
+            </p>
+
+            <div class="btnRow" id="btnRow">
+              <button class="yes" id="yesBtn">Yes 💗</button>
+              <button class="no" id="noBtn">No 🙈</button>
+            </div>
+
+            <div class="final" id="finalBox" aria-live="polite">
+              <h3>Yesss! 💞</h3>
+              <p id="finalText">
+                You just made my whole day. I’m genuinely lucky to have you. I can’t wait to make Valentine’s special with you.
+              </p>
+            </div>
+
+            <p class="tiny" id="hintText">If you press “No”… this page may get a little stubborn.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="footer">
+        <span class="pill">Made with love • <span id="fromName">— from Joshua</span></span>
+        <span class="pill">Tip: open on mobile for extra cute vibes</span>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    // ======= CUSTOMIZE =======
+    const HER_NAME = "Fareedah";
+    const NICKNAME = "P Fiddy";
+    const FROM_NAME = "— from Joshua";
+    const DATE_LABEL = "February 14";
+
+    // “Amazing” messages (includes nickname)
+    const LOVE_MESSAGES = [
+      `${NICKNAME}, you’re genuinely one of the most beautiful people I’ve ever seen — and it’s not just your looks. It’s the way you carry yourself.`,
+      `You have this calm, soft magic that makes everything around you feel lighter. You brighten my day without even trying.`,
+      `Your smile is dangerous. One look and my mood resets to “happy.”`,
+      `I love how you make ordinary moments feel special. Being around you feels like a win.`,
+      `You’re the kind of girl people pray to meet — and I’m grateful I get to know you the way I do.`,
+      `If you were a playlist, you’d be my favorite track on repeat.`,
+      `You light up my day in a way I can’t explain properly… I just know I feel better when you’re around.`
+    ];
+
+    // ======= SET TEXT =======
+    document.getElementById("herNameBadge").textContent = HER_NAME;
+    document.getElementById("herNameQ").textContent = HER_NAME;
+    document.getElementById("fromName").textContent = FROM_NAME;
+    document.getElementById("datePill").textContent = `📅 ${DATE_LABEL}`;
+
+    // ======= RENDER MESSAGES =======
+    const messagesEl = document.getElementById("messages");
+    function shuffle(arr){
+      const a = arr.slice();
+      for(let i=a.length-1;i>0;i--){
+        const j = Math.floor(Math.random()*(i+1));
+        [a[i],a[j]] = [a[j],a[i]];
+      }
+      return a;
+    }
+    function renderMessages(){
+      messagesEl.innerHTML = "";
+      shuffle(LOVE_MESSAGES).forEach(t=>{
+        const d = document.createElement("div");
+        d.className = "msg";
+        d.textContent = t;
+        messagesEl.appendChild(d);
+      });
+    }
+    renderMessages();
+    messagesEl.addEventListener("click", renderMessages);
+
+    // ======= HEARTS =======
+    const heartsRoot = document.getElementById("hearts");
+    const heartChars = ["💗","💖","💘","💕","💞","💓"];
+    function spawnHeart(){
+      const h = document.createElement("div");
+      h.className = "heart";
+      h.textContent = heartChars[Math.floor(Math.random()*heartChars.length)];
+      const left = Math.random()*100;
+      const size = 14 + Math.random()*18;
+      const dur = 6 + Math.random()*7;
+      h.style.left = left + "vw";
+      h.style.bottom = "-30px";
+      h.style.fontSize = size + "px";
+      h.style.animationDuration = dur + "s";
+      h.style.animationDelay = (Math.random()*0.6) + "s";
+      heartsRoot.appendChild(h);
+      setTimeout(()=>h.remove(), (dur+1)*1000);
+    }
+    setInterval(spawnHeart, 650);
+    for(let i=0;i<10;i++) setTimeout(spawnHeart, i*120);
+
+    // ======= BUTTON LOGIC (perky prompts) =======
+    const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
+    const finalBox = document.getElementById("finalBox");
+    const finalText = document.getElementById("finalText");
+    const hintText = document.getElementById("hintText");
+    const btnRow = document.getElementById("btnRow");
+
+    const noPrompts = [
+      "Are you sure? 😭",
+      "Like… 100% sure? 🥺",
+      "Final answer? 👀",
+      "Don’t do this to me 😩",
+      "Okay… but are you REALLY sure? 😭",
+      "One more time: sure sure? 💘"
+    ];
+
+    let noCount = 0;
+
+    function moveNoButton(){
+      const rowRect = btnRow.getBoundingClientRect();
+      const btnRect = noBtn.getBoundingClientRect();
+      const maxX = Math.max(0, rowRect.width - btnRect.width);
+      const maxY = Math.max(0, rowRect.height - btnRect.height);
+
+      const x = Math.random() * maxX;
+      const y = Math.random() * maxY;
+
+      noBtn.style.position = "absolute";
+      noBtn.style.left = x + "px";
+      noBtn.style.top = y + "px";
+    }
+
+    function celebrate(){
+      for(let i=0;i<28;i++) setTimeout(spawnHeart, i*55);
+    }
+
+    noBtn.addEventListener("click", ()=>{
+      noCount++;
+      noBtn.textContent = noPrompts[Math.min(noCount-1, noPrompts.length-1)];
+
+      if(noCount >= 2) moveNoButton();
+
+      if(noCount === 3){
+        hintText.textContent = `This button is acting funny… maybe try “Yes”, ${NICKNAME} 😌`;
+        yesBtn.style.transform = "scale(1.06)";
+      }
+      if(noCount === 5){
+        hintText.textContent = `At this point, the page is team ‘Yes’ 💗`;
+        yesBtn.style.transform = "scale(1.10)";
+      }
+    });
+
+    yesBtn.addEventListener("click", ()=>{
+      finalBox.style.display = "block";
+      hintText.textContent = "Locked in 💞";
+      noBtn.disabled = true;
+      noBtn.style.opacity = .55;
+      noBtn.style.cursor = "not-allowed";
+      yesBtn.textContent = "Yayyy 💘";
+      yesBtn.style.transform = "scale(1.03)";
+
+      finalText.textContent =
+        `${HER_NAME} (${NICKNAME}), thank you. You just made my whole day. I’m going to make Valentine’s sweet, calm, and unforgettable — just like you. 💗`;
+
+      celebrate();
+    });
+  </script>
+</body>
+</html>
